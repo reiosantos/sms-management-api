@@ -1,0 +1,14 @@
+/actual/**
+/build/**
+/conf/**
+/coverage/**
+/docs/**
+/fixtures/**
+/jsdoc/**
+/templates/**
+/test/actual/**
+/test/templates/**
+/test/bench/**
+/test/fixtures/**
+/test/performance/**
+/tmp/**

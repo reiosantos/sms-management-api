@@ -1,0 +1,14 @@
+{
+	"paths": {},
+	"swagger": "2.0",
+	"info": {
+		"termsOfService": "http://swagger.io/terms/",
+		"contact": {
+			"name": "API Support",
+			"url": "http://kaderi-api.com/support",
+			"email": "ronireiosantos@gmail.com"
+		},
+		"title": "Kaderi API docs",
+		"version": "1.0"
+	}
+}
