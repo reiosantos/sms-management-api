@@ -1,4 +1,8 @@
 {
+    "require": [
+      "@babel/register",
+      "dotenv/config"
+    ],
 	"reporter": [
 		"lcov",
 		"text"
@@ -13,8 +17,7 @@
 		"test",
 		"**/config/**",
 		"**/helpers/models.**.js",
-		"**/index.js",
-		"**/server.js"
+		"**/helpers/index.js"
 	],
 	"sourceMap": false,
 	"instrument": false,

@@ -14,18 +14,6 @@ class Helpers {
 		return { ...where, ...obj };
 	}
 
-	static getErrorMessage(error) {
-		let message = null;
-		if (error.code === 11000) {
-			message = error.errmsg.includes('contact')
-				? 'This phone number has already been used.' : message;
-
-			message = error.errmsg.includes('email')
-				? 'This Email has already been taken' : message;
-		}
-		return message || error;
-	}
-
 	static async returnErrors(req, res, next) {
 		const errors = await req.getValidationResult();
 		if (errors.isEmpty()) {
@@ -36,7 +24,8 @@ class Helpers {
 				field: error.param,
 				message: error.msg
 			}));
-		return res.status(400).json({ errors: responseErrors });
+		return res.status(400)
+			.json({ message: responseErrors });
 	}
 }
 

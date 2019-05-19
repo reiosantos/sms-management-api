@@ -105,8 +105,9 @@ class DatabaseWrapper {
 				);
 			}
 			throw new Error(
-				`Record could not be updated. we were unable to find the 
-				${data.table || data.message}.`
+				`Record could not be updated. we were unable to find the ${
+					data.table || data.message
+				}.`
 			);
 		}
 		if (data && data.dataValues) return data.dataValues;

@@ -8,7 +8,7 @@ class ModelFactory {
 	 * Returns the modal matching the name or null
 	 *
 	 * @param name
-	 * @returns Sequelize.Sequelize.Model
+	 * @returns Sequelize.Sequelize.Model.
 	 */
 	static getModel = (name) => {
 		if (!name) return null;

@@ -14,16 +14,19 @@ class ValidatorHelper {
 
 	static validateCreateUser = () => [
 		body('username', 'Username is required').exists(),
-		body('contact').exists().custom(this.validateContact),
+		body('contact')
+			.custom(this.validateContact),
 		body('email').optional().isEmail(),
 		body('password', 'Password is required').exists(),
 		body('isAdmin').optional().isBoolean()
 	];
 
 	static validateUpdateUser = () => [
-		param('userId', 'The user ID provided is invalid').exists().isUUID(),
+		param('userId', 'The user ID provided is invalid')
+			.isUUID(),
 		body('username', 'Username is required').exists(),
-		body('contact').exists().custom(this.validateContact),
+		body('contact')
+			.custom(this.validateContact),
 		body('email').optional().isEmail(),
 		body('password').optional(),
 		body('isAdmin').optional().isBoolean()
