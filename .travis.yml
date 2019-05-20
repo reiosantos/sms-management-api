@@ -4,11 +4,14 @@ node_js:
   - stable
 
 services:
-  - mongodb
+  - mysql
 
 cache:
   directories:
     - node_modules
+
+before_install:
+  - mysql -e 'CREATE DATABASE sms_management_api_test;'
 
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 >
@@ -17,6 +20,7 @@ before_script:
   - ./cc-test-reporter before-build
 
 script:
+  - npm run db:rollmigrate
   - yarn run build
   - yarn test:coverage
 

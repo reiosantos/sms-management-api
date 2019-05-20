@@ -18,8 +18,8 @@ const routes = (app) => {
 			UserMiddleware.validate('createUser'),
 			Helpers.returnErrors,
 			signup)
-		.use(apiPrefix, auth.required, userRouter)
-		.use(apiPrefix, auth.required, smsRouter)
+		.use(apiPrefix, auth.required, auth.addUserData, userRouter)
+		.use(apiPrefix, auth.required, auth.addUserData, smsRouter)
 
 		.use((err, req, res, next) => {
 			if (err.name === 'UnauthorizedError') {

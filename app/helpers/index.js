@@ -1,17 +1,7 @@
-import { Sequelize } from 'sequelize';
-import { USER_MODAL } from '../constants';
-
-const { Op } = Sequelize;
 
 class Helpers {
 	static modifyWhereClause(objectModel, where = {}) {
-		const obj = {};
-		if (objectModel === USER_MODAL) {
-			obj.username = { [Op.ne]: 'admin' };
-		} else {
-			obj[`${objectModel}Name`] = { [Op.ne]: 'admin' };
-		}
-		return { ...where, ...obj };
+		return { ...where };
 	}
 
 	static async returnErrors(req, res, next) {

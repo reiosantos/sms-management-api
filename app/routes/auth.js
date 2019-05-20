@@ -1,4 +1,7 @@
 import jwt from 'express-jwt';
+import jwtoken from 'jsonwebtoken';
+import { USER_MODAL } from '../constants';
+import DatabaseWrapper from '../models';
 
 const getTokenFromHeaders = (req) => {
 	const { headers: { authorization } } = req;
@@ -6,6 +9,23 @@ const getTokenFromHeaders = (req) => {
 		return authorization.split(' ')[1];
 	}
 	return null;
+};
+
+const addUserData = async (req, res, next) => {
+	const payload = jwtoken.decode(getTokenFromHeaders(req));
+
+	const user = await DatabaseWrapper.findOne(USER_MODAL, payload.identity);
+	if (!user) {
+		return res.status(404).json({
+			message: 'This token is expired or invalid. Please login again'
+		});
+	}
+
+	req.userData = {
+		...user,
+		password: undefined
+	};
+	return next();
 };
 
 const auth = {
@@ -19,7 +39,8 @@ const auth = {
 		userProperty: 'payload',
 		getToken: getTokenFromHeaders,
 		credentialsRequired: false
-	})
+	}),
+	addUserData
 };
 
 export default auth;

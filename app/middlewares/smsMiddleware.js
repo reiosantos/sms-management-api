@@ -7,17 +7,14 @@ class ValidatorHelper {
 			|| value.length < 10
 			|| value.length > 13
 		) {
-			throw Error('Please input a valid phone number');
+			throw Error('A valid receiver phone number is required');
 		}
 		return value;
 	};
 
 	static validateCreateSms = () => [
-		body('username', 'Smsname is required').exists(),
-		body('contact').exists().custom(this.validateContact),
-		body('email').optional().isEmail(),
-		body('password', 'Password is required').exists(),
-		body('isAdmin').optional().isBoolean()
+		body('message', 'Message is required').exists(),
+		body('contact').custom(this.validateContact)
 	];
 }
 

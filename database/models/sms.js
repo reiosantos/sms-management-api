@@ -7,20 +7,34 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.UUID,
 			defaultValue: DataTypes.UUIDV4
 		},
-		message: DataTypes.STRING,
-		sentOn: DataTypes.DATE,
-		receivedOn: DataTypes.DATE,
-		status: DataTypes.STRING
+		message: {
+			type: DataTypes.STRING,
+			allowNull: false
+		},
+		sentOn: {
+			type: DataTypes.DATE,
+			defaultValue: () => new Date()
+		},
+		receivedOn: {
+			type: DataTypes.DATE,
+			allowNull: true
+		},
+		status: {
+			type: DataTypes.STRING,
+			allowNull: false
+		}
 	}, {});
 	Sms.associate = (models) => {
 		// associations can be defined here
 		Sms.belongsTo(models.User, {
 			foreignKey: 'senderId',
-			targetKey: 'id'
+			targetKey: 'id',
+			as: 'sender'
 		});
 		Sms.belongsTo(models.User, {
 			foreignKey: 'receiverId',
-			targetKey: 'id'
+			targetKey: 'id',
+			as: 'receiver'
 		});
 	};
 	return Sms;

@@ -5,8 +5,12 @@ import { signup } from './auth';
 
 class UserActions {
 	static async getAllUsers(req, res) {
-		const users = await DatabaseWrapper.findAll(USER_MODAL, {});
-		return res.status(200).json({ records: users });
+		try {
+			const users = await DatabaseWrapper.findAll(USER_MODAL, {});
+			return res.status(200).json({ records: users });
+		} catch (err) {
+			return res.status(500).send({ message: err.message });
+		}
 	}
 
 	static async getUser(req, res) {

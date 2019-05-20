@@ -17,7 +17,8 @@
 		"test",
 		"**/config/**",
 		"**/helpers/models.**.js",
-		"**/helpers/index.js"
+		"**/server.js",
+		"**/util/"
 	],
 	"sourceMap": false,
 	"instrument": false,
