@@ -1,14 +1,612 @@
 {
-	"paths": {},
 	"swagger": "2.0",
 	"info": {
 		"termsOfService": "http://swagger.io/terms/",
+		"description": "A simple SMS API",
 		"contact": {
 			"name": "API Support",
-			"url": "http://kaderi-api.com/support",
+			"url": "http://sms-management-api.com/support",
 			"email": "ronireiosantos@gmail.com"
 		},
-		"title": "Kaderi API docs",
+		"title": "SMS management API docs",
 		"version": "1.0"
-	}
+	},
+	"basePath": "/api/v1",
+	"produces": ["application/json"],
+	"consumes": ["application/json"],
+	"schemes": ["http", "https"],
+	"paths": {
+		"/signup": {
+			"post": {
+				"description": "Creates a new User account",
+				"consumes": ["application/json"],
+				"security": [],
+				"parameters": [
+					{
+						"$ref": "#/parameters/signup"
+					}
+				],
+				"responses": {
+					"201": {
+						"$ref": "#/definitions/Signup"
+					},
+					"400": {
+						"$ref": "#/definitions/BadRequestError"
+					}
+				}
+			}
+		},
+		"/login": {
+			"post": {
+				"description": "Login to your account",
+				"consumes": ["application/json"],
+				"security": [],
+				"parameters": [
+					{
+						"$ref": "#/parameters/login"
+					}
+				],
+				"responses": {
+					"200": {
+						"$ref": "#/definitions/Login"
+					},
+					"400": {
+						"$ref": "#/definitions/BadRequestError"
+					}
+				}
+			}
+		},
+		"/users": {
+			"get": {
+				"description": "Returns a list of all users",
+				"produces": ["application/json"],
+				"responses": {
+					"200": {
+						"description": "Array of users",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"records": {
+									"type": "array",
+									"items": {
+										"$ref": "#/definitions/User"
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"$ref": "#/definitions/UnauthorizedError"
+					}
+				}
+			},
+			"post": {
+				"description": "Creates a new User",
+				"consumes": ["application/json"],
+				"parameters": [
+					{
+						"$ref": "#/parameters/signup"
+					}
+				],
+				"responses": {
+					"201": {
+						"$ref": "#/definitions/Signup"
+					},
+					"400": {
+						"$ref": "#/definitions/BadRequestError"
+					},
+					"401": {
+						"$ref": "#/definitions/UnauthorizedError"
+					}
+				}
+			}
+		},
+		"/users/{userId}": {
+			"get": {
+				"description": "Returns a single user",
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"type": "string",
+						"in": "path",
+						"name": "userId",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "A single user",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"record": {
+									"$ref": "#/definitions/User"
+								}
+							}
+						}
+					},
+					"400": {
+						"$ref": "#/definitions/BadRequestError"
+					},
+					"401": {
+						"$ref": "#/definitions/UnauthorizedError"
+					}
+				}
+			},
+			"put": {
+				"description": "Returns a single Updated user",
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"type": "string",
+						"in": "path",
+						"name": "userId",
+						"required": true
+					},
+					{
+						"$ref": "#/parameters/signup"
+					}
+				],
+				"responses": {
+					"202": {
+						"$ref": "#/definitions/Signup"
+					},
+					"400": {
+						"$ref": "#/definitions/BadRequestError"
+					},
+					"401": {
+						"$ref": "#/definitions/UnauthorizedError"
+					}
+				}
+			},
+			"delete": {
+				"description": "Delete a single user",
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"type": "string",
+						"in": "path",
+						"name": "userId",
+						"required": true
+					}
+				],
+				"responses": {
+					"204": {
+						"description": "A single user"
+					},
+					"400": {
+						"$ref": "#/definitions/BadRequestError"
+					},
+					"401": {
+						"$ref": "#/definitions/UnauthorizedError"
+					}
+				}
+		}
+		},
+		"/sms": {
+			"get": {
+				"description": "Returns a list of all sms messages of a user",
+				"produces": ["application/json"],
+				"responses": {
+					"200": {
+						"$ref": "#/definitions/SmsList"
+					},
+					"401": {
+						"$ref": "#/definitions/UnauthorizedError"
+					}
+				}
+			},
+			"post": {
+				"description": "Creates a new sms to be sent to a user",
+				"consumes": ["application/json"],
+				"parameters": [
+					{
+						"$ref": "#/parameters/sms"
+					}
+				],
+				"responses": {
+					"201": {
+						"$ref": "#/definitions/CreateSms"
+					},
+					"400": {
+						"$ref": "#/definitions/BadRequestError"
+					},
+					"401": {
+						"$ref": "#/definitions/UnauthorizedError"
+					}
+				}
+			}
+		},
+		"/sms/{smsId}": {
+			"get": {
+				"description": "Returns a single SMS",
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"type": "string",
+						"in": "path",
+						"name": "smsId",
+						"required": true
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "A single SMS",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"record": {
+									"$ref": "#/definitions/Sms"
+								}
+							}
+						}
+					},
+					"400": {
+						"$ref": "#/definitions/BadRequestError"
+					},
+					"401": {
+						"$ref": "#/definitions/UnauthorizedError"
+					}
+				}
+			},
+			"delete": {
+				"description": "Delete a single SMS",
+				"produces": ["application/json"],
+				"parameters": [
+					{
+						"type": "string",
+						"in": "path",
+						"name": "smsId",
+						"required": true
+					}
+				],
+				"responses": {
+					"204": {
+						"description": "A single Sms Object"
+					},
+					"400": {
+						"$ref": "#/definitions/BadRequestError"
+					},
+					"401": {
+						"$ref": "#/definitions/UnauthorizedError"
+					}
+				}
+			}
+		}
+	},
+	"parameters": {
+		"signup": {
+			"in": "body",
+			"name": "user",
+			"description": "User data",
+			"schema": {
+				"type": "object",
+				"required": [
+					"username",
+					"contact",
+					"password"
+				],
+				"properties": {
+					"isAdmin": {
+						"type": "boolean",
+						"default": false
+					},
+					"username": {
+						"type": "string"
+					},
+					"contact": {
+						"type": "number",
+						"minLength": 10,
+						"maxLength": 13
+					},
+					"password": {
+						"type": "string",
+						"format": "password"
+					}
+				},
+				"example": {
+					"isAdmin": false,
+					"username": "my username",
+					"contact": "1234567890",
+					"password": "this_is_very_secret"
+				}
+			}
+		},
+		"login": {
+			"in": "body",
+			"name": "Login credentials",
+			"description": "User data",
+			"schema": {
+				"type": "object",
+				"required": [
+					"username",
+					"password"
+				],
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string",
+						"format": "password"
+					}
+				},
+				"example": {
+					"username": "my username",
+					"password": "this_is_very_secret"
+				}
+			}
+		},
+		"sms": {
+			"in": "body",
+			"name": "Message Details",
+			"description": "SMS data",
+			"schema": {
+				"type": "object",
+				"required": [
+					"message",
+					"contact"
+				],
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"contact": {
+						"type": "number",
+						"format": "integer"
+					}
+				},
+				"example": {
+					"message": "I am sending this",
+					"contact": "1234567890"
+				}
+			}
+		}
+	},
+	"definitions": {
+		"User": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "string",
+					"readOnly": true,
+					"format": "uuid"
+				},
+				"isAdmin": {
+					"type": "boolean",
+					"default": false
+				},
+				"username": {
+					"type": "string"
+				},
+				"contact": {
+					"type": "number",
+					"minLength": 10,
+					"maxLength": 13
+				},
+				"updatedAt": {
+					"type": "string",
+					"format": "date-time",
+					"readOnly": true
+				},
+				"createdAt": {
+					"type": "string",
+					"format": "date-time",
+					"readOnly": true
+				},
+				"password": {
+					"type": "string",
+					"format": "password"
+				},
+				"Sms": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"$ref": "#/definitions/Sms"
+					}
+				}
+			},
+			"example": {
+				"id": "3e3fabe1-159f-4f61-9c69-7335e46c3bfb",
+				"isAdmin": false,
+				"username": "my username",
+				"contact": "1234567890",
+				"updatedAt": "2019-05-24T12:58:43.702Z",
+				"createdAt": "2019-05-24T12:58:43.702Z",
+				"password": "this_is_very_secret",
+				"Sms": []
+			}
+		},
+		"Sms": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"type": "string",
+					"readOnly": true,
+					"format": "uuid"
+				},
+				"message": {
+					"type": "string"
+				},
+				"status": {
+					"type": "string"
+				},
+				"sentOn": {
+					"type": "string",
+					"format": "date-time",
+					"readOnly": true
+				},
+				"receiverId": {
+					"type": "string",
+					"format": "uuid"
+				},
+				"senderId": {
+					"type": "string",
+					"format": "uuid"
+				},
+				"receivedOn": {
+					"type": "string",
+					"format": "date-time",
+					"readOnly": true
+				},
+				"updatedAt": {
+					"type": "string",
+					"format": "date-time",
+					"readOnly": true
+				},
+				"createdAt": {
+					"type": "string",
+					"format": "date-time",
+					"readOnly": true
+				},
+				"receiver": {
+					"$ref": "#/definitions/User"
+				},
+				"sender": {
+					"$ref": "#/definitions/User"
+				}
+			},
+			"example": {
+				"id": "b98a2e05-ecab-4e24-89fd-1f0225996beb",
+				"sentOn": "2019-05-20T08:39:09.440Z",
+				"receiverId": "75ba2d2c-7eac-4c1f-8d00-ad429794fee0",
+				"senderId": "75ba2d2c-7eac-4c1f-8d00-ad429794fee0",
+				"message": "I am sending this",
+				"status": "Delivered",
+				"updatedAt": "2019-05-20T08:39:09.440Z",
+				"createdAt": "2019-05-20T08:39:09.440Z",
+				"receiver": {},
+				"sender": {}
+			}
+		},
+		"CreateSms": {
+			"readOnly": true,
+			"type": "object",
+			"properties": {
+				"record": {
+					"$ref": "#/definitions/Sms"
+				}
+			}
+		},
+		"SmsList": {
+			"readOnly": true,
+			"type": "object",
+			"properties": {
+				"records": {
+					"type": "object",
+					"properties": {
+						"sent": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/Sms"
+							}
+						},
+						"received": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/Sms"
+							}
+						}
+					}
+				}
+			}
+		},
+		"Login": {
+			"readOnly": true,
+			"type": "object",
+			"description": "Users Object",
+			"properties": {
+				"user": {
+					"type": "object",
+					"properties": {
+						"id": {
+							"type": "string",
+							"readOnly": true,
+							"format": "uuid"
+						},
+						"name": {
+							"type": "string"
+						},
+						"token": {
+							"type": "string",
+							"format": "password"
+						}
+					}
+				}
+			},
+			"example": {
+				"id": "3e3fabe1-159f-4f61-9c69-7335e46c3bfb",
+				"name": "my username",
+				"token": "this_is_very_secret_JWT_TOKEN"
+			}
+		},
+		"Signup": {
+			"readOnly": true,
+			"type": "object",
+			"description": "Signup Object",
+			"properties": {
+				"record": {
+					"$ref": "#/definitions/User"
+				}
+			},
+			"example": {
+				"record": {
+					"id": "b6df97f0-33cb-4b47-bb2b-8611fb918a75",
+					"isAdmin": false,
+					"username": "reiosantos1",
+					"contact": "1234567890",
+					"password": "$2b$10$kjqtWaHMnc6I4DNz2DG5QO1MYRA3u/hJ10WkUCIcMIYLBW2EptOZq",
+					"updatedAt": "2019-05-24T17:47:12.664Z",
+					"createdAt": "2019-05-24T17:47:12.664Z"
+				}
+			}
+		},
+		"BadRequestError": {
+			"description": "Error: Bad Request",
+			"type": "object",
+			"required": [
+				"message"
+			],
+			"properties": {
+				"message": {
+					"type": "array",
+					"required": [
+						"message"
+					],
+					"items": {
+						"type": "object",
+						"properties": {
+							"field": {
+								"type": "string"
+							},
+							"message": {
+								"type": "string"
+							}
+						}
+					}
+				}
+			}
+		},
+		"UnauthorizedError": {
+			"description": "Access token is missing or invalid",
+			"type": "object",
+			"properties": {
+				"message": {
+					"type": "string"
+				}
+			}
+		}
+	},
+	"securityDefinitions": {
+		"JWT": {
+			"type": "apiKey",
+			"in": "header",
+			"name": "Authorization"
+		}
+	},
+	"security": [
+		{
+			"JWT": []
+		}
+	]
 }

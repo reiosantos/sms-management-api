@@ -43,7 +43,8 @@ describe('Authentication', () => {
 					res.should.have.status(400);
 					res.body.should.be.a('object');
 					res.body.should.have.property('message');
-					expect(res.body.message.username)
+					console.log(res.body);
+					expect(res.body.message[0].message)
 						.to
 						.eql('username is required');
 					done();
@@ -58,7 +59,7 @@ describe('Authentication', () => {
 					res.should.have.status(400);
 					res.body.should.be.a('object');
 					res.body.should.have.property('message');
-					expect(res.body.message.password)
+					expect(res.body.message[0].message)
 						.to
 						.eql('password is required');
 					done();

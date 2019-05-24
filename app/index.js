@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import swagger from 'swagger-ui-express';
 import env from '../config/environment';
 import routes from './routes';
+// import swaggerSpecification from './swaggerJsDoc';
 
 let swaggerDocument = {};
 try {
@@ -32,7 +33,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
-app.use('/api/v1/docs', swagger.serve, swagger.setup(swaggerDocument));
+app.use('/api/v1/docs', swagger.serve, swagger.setup(swaggerDocument, { explorer: true }));
 app.use(expressValidator());
 
 routes(app);

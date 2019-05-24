@@ -11,7 +11,10 @@ export const signup = async (req, res) => {
 
 		if (userData && userData.id) {
 			return res.status(400).json({
-				message: 'This username is already taken, please choose a different name'
+				message: [{
+					field: 'username',
+					message: 'This username is already taken, please choose a different name'
+				}]
 			});
 		}
 		const data = await DatabaseWrapper.createOne(USER_MODAL, user);
@@ -21,7 +24,7 @@ export const signup = async (req, res) => {
 		if (err.name === 'SequelizeUniqueConstraintError') {
 			resp = 'Sorry, This user already has an account.';
 		}
-		return res.status(400).json({ message: resp });
+		return res.status(400).json({ message: [{ message: resp }] });
 	}
 };
 
@@ -30,11 +33,21 @@ export const login = (req, res, next) => {
 
 	if (!user.username) {
 		return res.status(400)
-			.json({ message: { username: 'username is required' } });
+			.json({
+				message: [{
+					field: 'username',
+					message: 'username is required'
+				}]
+			});
 	}
 
 	if (!user.password) {
-		return res.status(400).json({ message: { password: 'password is required' } });
+		return res.status(400).json({
+			message: [{
+				field: 'password',
+				message: 'password is required'
+			}]
+		});
 	}
 
 	return passport.authenticate('local', { session: false },

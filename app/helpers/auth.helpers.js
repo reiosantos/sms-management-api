@@ -26,7 +26,7 @@ export function generateJWTToken(userObject) {
 
 export function toAuthJSON(userObject) {
 	return {
-		_id: userObject.id,
+		id: userObject.id,
 		name: userObject.username,
 		token: userObject.token
 	};
